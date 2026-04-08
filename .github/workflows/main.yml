@@ -1,0 +1,31 @@
+name: Auto-Price-Bot
+
+on:
+  workflow_dispatch: # มึงสามารถกดรันเองใน GitHub ได้ถ้าอยากทดสอบ
+  push:
+    branches:
+      - main # ทุกครั้งที่เครื่องมึง Git Push ขึ้นมา มันจะอัปเดตหน้าเว็บทันที
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # อัปโหลดไฟล์ทั้งหมดในโฟลเดอร์หลักรวมถึง index.html ที่มึงขูดมา
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
